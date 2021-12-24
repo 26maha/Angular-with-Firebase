@@ -1,0 +1,29 @@
+<mat-card class="example-card" *ngIf="singleUser !=''">
+    <mat-card-header>
+        <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-title>{{singleUser.name}}</mat-card-title>
+        <mat-card-subtitle>{{singleUser.place}}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <div style="border: 1px solid;">
+            <ul *ngFor="let msg of messages">
+                <li>{{msg.text}}</li>
+            </ul>
+        </div>
+        <form #chatForm="ngForm" (ngSubmit)="postMessage()">
+            <div class="row">
+                <div class="col-sm-8 form-group">
+                    <label>Text Here</label>
+                    <input class="form-control" name="name" [(ngModel)]="message" #name="ngModel" required>
+                </div>
+                <div class="col-sm-4 form-group">
+                    <br>
+                    <button mat-icon-button color="primary" aria-label="Send Message" type="submit"
+                        [disabled]="message==''">
+                        <mat-icon>send</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </mat-card-content>
+</mat-card>

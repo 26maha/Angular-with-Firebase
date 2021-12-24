@@ -1,0 +1,31 @@
+table {
+    width: 100%;
+}
+
+th.mat-sort-header-sorted {
+    color: black;
+}
+
+th.mat-header-cell{
+    font-weight: bold!important;
+    color: black!important;
+}
+table{
+    margin: 2% 2%;
+    width: 45%;
+    background: lightyellow;
+    position: absolute;
+}
+
+form{
+    padding: 10px 1px 10px 1px!important;
+}
+
+.mat-dialog-content{
+    border: 1px solid!important;
+    margin: 0px 1px 0px 1px!important;
+}
+
+.error-message{
+    color: red;
+}
