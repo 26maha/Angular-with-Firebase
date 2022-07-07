@@ -13,13 +13,15 @@ import { UserComponent } from './users/user/user.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppMaterial } from './app.material.module';
 import { LoginComponent } from './login/login.component';
+import { TestComponent } from './test/test.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     UsersComponent,
     UserComponent,
-    LoginComponent
+    LoginComponent,
+    TestComponent
   ],
   imports: [
     BrowserModule,

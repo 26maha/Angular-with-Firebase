@@ -1,9 +1,40 @@
-.example-card{
-    width: 500px;
-    float: right;
+.example-card {
+    font: message-box;
+    box-shadow: 4px 4px 3px 5px #1460bb33;
+    border-radius: 12px;
+    padding: 0px !important;
+    border: 1px solid #0080ffa3
 }
 
 .example-header-image {
     background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
     background-size: cover;
+}
+
+ul {
+    list-style: none;
+}
+
+mat-card-header {
+    padding: 12px;
+    border-bottom: 1px solid #0080ffa3;
+}
+
+mat-card-footer{
+    margin: 2px 0px;
+    border-top: 1px solid #0080ffa3;
+    padding: 12px;
+}
+
+.chat-style {
+    background: #00bfff8f;
+    padding: 2px 15px;
+    border-radius: 8px;
+    color: antiquewhite;
+    font-weight: 600;
+}
+
+.chat-body {
+    font-size: 24px;
+    margin: 10px 2px!important;
 }

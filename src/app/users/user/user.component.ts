@@ -1,7 +1,6 @@
 import { UserService } from './../../user.service';
 import { Component, Input, OnInit } from '@angular/core';
-import { getLocaleDateFormat } from '@angular/common';
-import { Subject } from 'rxjs';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-user',
@@ -19,36 +18,44 @@ export class UserComponent implements OnInit {
 
   ngOnInit(): void {
     this.author = JSON.parse(localStorage.getItem('user') || '');
-    // this.loadMessages();
-    this.notifyUser.subscribe((res: any) => {
-      console.log(res)
-      this.loadMessages();
-    })
+    // this.notifyUser.subscribe((res: any) => {
+    //   console.log(res)
+    //   this.loadMessages();
+    // })
   }
 
   postMessage() {
     if (this.singleUser.messages) {
-      this.singleUser.messages.push({ fromId: this.author.id, text: this.message })
+      this.singleUser.messages.push({ fromId: this.author.id, text: this.message, time: new Date() })
 
     } else {
       this.singleUser['messages'] = [
-        { fromId: this.author.id, text: this.message }
+        { fromId: this.author.id, text: this.message, time: new Date() }
       ]
     }
     this.userService.updateUser(this.singleUser.key, this.singleUser);
     alert("msg send successfully");
     this.message = "";
-    this.loadMessages();
+    this.loadMessages(this.singleUser);
   }
 
-  loadMessages() {
-    console.log(this.singleUser, "singleUser")
+  loadMessages(user: any) {
+    this.singleUser = user;
     this.messages = [];
+    let data: any = [];
+    console.log(this.author)
+    this.messages = this.author?.messages?.filter((msg: any) => msg.fromId == user.id) || [];
+    console.log(this.message)
     this.userService.getSingleUserDetails(this.singleUser.key).snapshotChanges().subscribe(res => {
-      let data: any = res.payload.val();
-      this.messages = data?.messages.filter((msg: any) => msg.fromId == this.author.id)
+      data = res.payload.val();
+      data?.messages?.filter((msg: any) => {
+        if (msg.fromId == this.author.id) {
+          msg.align = 'right';
+          this.messages.push(msg);
+          this.messages = _.uniqBy(_.sortBy(this.messages, ['time']), 'text');
+        }
+      })
     });
-    console.log(this.messages, "this.messages")
   }
 
 }

@@ -1,6 +1,6 @@
 import { UserService } from './user.service';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -10,9 +10,13 @@ import { Router } from '@angular/router';
 export class AppComponent implements OnInit {
   title = 'angular-app-with-expressjs';
   authorName:string='';
-  constructor(private route: Router, public userService: UserService) { }
+  isUser:boolean=false;
+  constructor(private route: Router, public userService: UserService,private activatedroute: ActivatedRoute) { }
 
   ngOnInit(): void {
+    // this.route.events.subscribe(data => {
+    //   console.log(data, "--data")
+    // });
     this.userService.isUserExist = JSON.parse(localStorage.getItem('isUser') || 'false');
     if (this.userService.isUserExist) {
       this.userService.show();
@@ -26,5 +30,9 @@ export class AppComponent implements OnInit {
     localStorage.setItem('user', '');
     this.userService.hide();
     this.route.navigate(['login'])
+  }
+
+  public ngOnDestroy(): void {
+    this.userService.hide();
   }
 }

@@ -9,8 +9,8 @@ import { BehaviorSubject } from 'rxjs';
 export class UserService {
 
   isUserExist: boolean = false;
-  private _loading = new BehaviorSubject<boolean>(false);
-  public loading$ = this._loading.asObservable();
+  private _userMenu = new BehaviorSubject<boolean>(false);
+  public user$ = this._userMenu.asObservable();
   constructor(private db: AngularFireDatabase) { }
 
   postUser(user: Users) {
@@ -42,11 +42,11 @@ export class UserService {
 
 
   public show() {
-    this._loading.next(true);
+    this._userMenu.next(true);
   }
 
   public hide() {
-    this._loading.next(false);
+    this._userMenu.next(false);
   }
 
 }

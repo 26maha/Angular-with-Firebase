@@ -1,10 +1,11 @@
 import { Users } from './../users';
 import { UserService } from './../user.service';
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { Subject, BehaviorSubject } from 'rxjs';
+import { UserComponent } from './user/user.component';
 
 @Component({
   selector: 'app-users',
@@ -18,11 +19,47 @@ export class UsersComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
   user: any = {};
   authorName: any;
-  singleUser: any;
-  notifyUser = new BehaviorSubject<boolean>(false);
-  showChat: boolean = false;
+  @ViewChild(UserComponent)
+  userOne!: UserComponent;
 
-  constructor(private userService: UserService, private dialog: MatDialog) { }
+  constructor(private userService: UserService, private dialog: MatDialog) {
+
+    let data = [
+      { name: 'dog', line: 'adv', order: 1 },
+      { name: 'cet', line: 'adv', order: 2 },
+      { name: 'red', line: 'zip', order: 1 },
+      { name: 'green', line: 'zip', order: 2 },
+      { name: 'elephant', line:'adv', order: 3 },
+    ];
+
+    data =data.sort((a,b)=>b.name.localeCompare(a.name));
+
+     console.log(data,"---test")
+
+    let grouped = data.reduce((res:any, curr) => {
+      res[curr.line] = res[curr.line] || [];
+      res[curr.line].push(curr);
+      return res;
+    }, {});
+
+    console.log(  Object.fromEntries(
+      Object.entries(grouped)
+        .sort((a:any, b:any) => b - a)
+    ),"---grouped")
+
+    // let group:any;
+    // let result:any=[];
+
+
+
+    // for (group of Object.keys(grouped)) {
+    //  result[group]=(grouped[group])
+    // }
+
+    // const entries = Object.entries(grouped);
+
+    // console.log(result,"---result")
+  }
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
@@ -69,10 +106,9 @@ export class UsersComponent implements OnInit {
     })
   }
 
-  viewChat(user: any) {
-    this.showChat = true;
-    this.singleUser = user;
-    this.notifyUser.next(true);
+  showChat(user: any) {
+    this.userOne.loadMessages(user);
   }
+
 
 }
